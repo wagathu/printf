@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <stdarg.h>
+
+int _printf(const char *format, ...) {
+    va_list args;
+        va_start(args, format);
+
+	    int count = 0;
+	        while (*format) {
+		        if (*format == '%') {
+			            format++; // Move to the next character after '%'
+
+				                // Handle each conversion specifier
+						            switch (*format) {
+							                    case 'c':
+									                        // Character
+												                    putchar(va_arg(args, int));
+														                        count++;
+																	                    break;
+																			                    case 's': {
+																					                        // String
+																								                    const char *str = va_arg(args, const char *);
+																										                        while (*str) {
+																													                        putchar(*str);
+																																                        count++;
+																																			                        str++;
+																																						                    }
+																																								                        break;
+																																											                }
+																																													                case '%':
+																																															                    // Print '%'
+																																																	                        putchar('%');
+																																																				                    count++;
+																																																						                        break;
+																																																									                default:
+																																																											                    // Invalid conversion specifier, ignore it
+																																																													                        break;
+																																																																            }
+																																																																	            } else {
+																																																																		                // Regular character, print as is
+																																																																				            putchar(*format);
+																																																																					                count++;
+																																																																							        }
+
+																																																																								        format++; // Move to the next character in the format string
+																																																																									    }
+
+																																																																									        va_end(args);
+																																																																										    return count;
+																																																																										    }
+
+																																																																										    int main() {
+																																																																										        int num = 123;
+																																																																											    char ch = 'A';
+																																																																											        const char *str = "Hello, World!";
+
+																																																																												    int printed_chars = _printf("Number: %d, Character: %c, String: %s\n", num, ch, str);
+																																																																												        printf("Total characters printed: %d\n", printed_chars);
+
+																																																																													    return 0;
+																																																																													    }
+
